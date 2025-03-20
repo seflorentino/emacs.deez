@@ -89,7 +89,14 @@
 (display-time-mode)
 
 ;; Theme
-(use-package emacs :config (load-theme 'modus-vivendi-tinted))
+(defun my/load-themes (themes)
+  (let ((theme-loaded nil))
+    (dolist (theme themes)
+      (when (and (not theme-loaded)
+		 (member theme (custom-available-themes)))
+	(load-theme theme t)
+	(setq theme-loaded t)))))
+(use-package emacs :config (my/load-themes '(modus-vivendi-tinted modus-vivendi)))
 
 (setopt initial-frame-alist
 	'((top . 1) (left . 1) (width . 185) (height . 56)))
