@@ -29,7 +29,11 @@
 (savehist-mode)
 
 ;; Save backups
-(setq backup-directory-alist '(("." . (concat user-emacs-directory "backups"))))
+(let ((backup-directory (expand-file-name "backups/" user-emacs-directory)))
+  (unless (file-exists-p backup-directory)
+    (make-directory backup-directory))
+  (setq backup-directory-alist `(("." . ,backup-directory))))
+
 (setq backup-by-copying t)
 (setq delete-old-versions t
   kept-new-versions 6
