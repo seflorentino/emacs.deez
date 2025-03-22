@@ -98,6 +98,17 @@
 	(setq theme-loaded t)))))
 (use-package emacs :config (my/load-themes '(modus-vivendi-tinted modus-vivendi)))
 
+;; Font
+(defun my/font-exists (font)
+  (if (null (x-list-fonts font)) nil t))
+(defun my/try-load-fonts (fonts)
+  (let ((font-loaded nil))
+    (dolist (font fonts)
+      (when (and (not font-loaded)
+		 (my/font-exists font))
+	(set-frame-font font nil t)))))
+(my/try-load-fonts '("IBM Plex Mono" "Hack" "Source Code Pro"))
+
 (setopt initial-frame-alist
 	'((top . 1) (left . 1) (width . 185) (height . 56)))
 
